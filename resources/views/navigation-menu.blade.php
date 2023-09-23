@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('index') }}">
+                    <a href="{{ route('question') }}">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>

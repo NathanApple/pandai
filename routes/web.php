@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [QuestionController::class,'index'])->name('index');
+Route::get('/question', [QuestionController::class,'index'])->name('question');
+Route::get('/', [IndexController::class,'index'])->name('index');
 
 Route::middleware([
     'auth:sanctum',
