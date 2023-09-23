@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('role');
             $table->bigInteger('points');
-            $table->dateTime('banTime', $precision = 0);
-            $table->integer('totalBan');
+            $table->dateTime('ban_time', $precision = 0)->nullable();
+            $table->integer('total_ban')->nullable();
+            $table->string('profile_image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
