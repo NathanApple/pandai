@@ -1,8 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pertanyaan') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Pertanyaan') }}
+            </h2>
+            <button type="submit" class="rounded-xl bg-black text-white p-2 hover:bg-gray-800 active:bg-gray-600">Ajukan Pertanyaan</button>
+        </div>
     </x-slot>
 
     <div class="py-12">
