@@ -16,6 +16,9 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        <!-- Flowbite -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -41,5 +44,6 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     </body>
 </html>
