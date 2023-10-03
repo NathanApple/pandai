@@ -22,6 +22,6 @@ class QuestionController extends Controller
         $question->refundPoints = 1;
         $question->Points = 2;
         $question->save();
-        return $this->index($request);
+        return to_route("question");
     }
 }
