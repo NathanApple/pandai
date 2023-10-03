@@ -20,12 +20,12 @@
                             </div>
                             <div class="mr-auto flex flex-col">
                                 <p class="my-auto text-lg">
-                                    Nama User
+                                    {{ @$question->user->name }}
                                 </p>
                             </div>
                         </div>
                         <div class="px-6 py-4">
-                            <div class="font-bold text-xl">Apa itu entre?</div>
+                            <div class="font-bold text-xl">{{ @$question->question }}</div>
                         </div>
                         <div class="px-6 pb-5">
                             <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
