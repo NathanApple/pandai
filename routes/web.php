@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::prefix('/question')->group(function(){
+    Route::get('/', [QuestionController::class,'index'])->name('question');
+    Route::post('/storeQuestion', [QuestionController::class,'store']);
+});
 
-Route::get('/question', [QuestionController::class,'index'])->name('question');
 Route::get('/', [IndexController::class,'index'])->name('index');
 
 Route::middleware([
