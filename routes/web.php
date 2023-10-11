@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('/question')->group(function(){
     Route::get('/', [QuestionController::class,'index'])->name('question');
+    Route::get('/view/{id}', [QuestionController::class,'view'])->name('question.view');
+    Route::post('/view/{id}/answer', [QuestionController::class,'answer'])->name('question.view.answer');
     Route::post('/storeQuestion', [QuestionController::class,'store']);
 });
 
