@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Auth;
 class QuestionController extends Controller
 {
     //
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $questions = Question::get();
         return view('question.index', compact('questions'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $question = new Question();
         $user = Auth::user();
         $question->user_id =  $user->id;
@@ -28,14 +30,27 @@ class QuestionController extends Controller
         return to_route("question");
     }
 
-    public function view(Request $request, $id){
+    public function view(Request $request, $id)
+    {
         $question = Question::find($id);
         $answers = Answer::where('question_id', $id)->get();
 
         return view('question.view', compact('question', 'answers'));
     }
 
-    public function answer(Request $request, $id){
+    public function search(Request $search)
+    {
+        $query = $search->input('search');
+
+        $question = DB::table('question')
+            ->where('questions', 'like', "%{$query}%") // Apply the LIKE condition
+            ->first();
+
+        return view('index', ['question' => $question]);
+    }
+
+    public function answer(Request $request, $id)
+    {
         $question = Question::find($id);
 
         Answer::create([
@@ -45,6 +60,6 @@ class QuestionController extends Controller
             'points' => $question->points,
         ]);
 
-        return redirect(route('question.view', ['id' => $id]))->with('success','Jawaban berhasil disimpan');
+        return redirect(route('question.view', ['id' => $id]))->with('success', 'Jawaban berhasil disimpan');
     }
 }

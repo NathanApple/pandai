@@ -21,6 +21,8 @@ Route::prefix('/question')->group(function(){
     Route::post('/storeQuestion', [QuestionController::class,'store']);
 });
 
+Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
+
 Route::get('/', [IndexController::class,'index'])->name('index');
 
 Route::middleware([
