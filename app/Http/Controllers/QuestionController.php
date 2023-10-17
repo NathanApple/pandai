@@ -14,7 +14,13 @@ class QuestionController extends Controller
     //
     public function index(Request $request)
     {
-        $questions = Question::orderByDesc('created_at')->paginate(20);
+        $questions = new Question();
+        
+        if (@$request->search){
+            $question = $questions->where('question', 'like', '%'.$request->search.'%');
+        }
+
+        $question = $question->orderByDesc('created_at')->paginate(20);
         return view('question.index', compact('questions'));
     }
 
