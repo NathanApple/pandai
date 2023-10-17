@@ -13,7 +13,7 @@ class QuestionController extends Controller
 {
     //
     public function index(Request $request){
-        $questions = Question::get();
+        $questions = Question::orderByDesc('created_at')->paginate(20);
         return view('question.index', compact('questions'));
     }
 
@@ -25,25 +25,33 @@ class QuestionController extends Controller
         $question->refundPoints = 1;
         $question->Points = 2;
         $question->save();
-        return to_route("question");
+
+        return redirect(route('question.view', ['id' => $question->id]))->with('success','Pertanyaan berhasil disimpan');
     }
 
     public function view(Request $request, $id){
         $question = Question::find($id);
         $answers = Answer::where('question_id', $id)->get();
 
-        return view('question.view', compact('question', 'answers'));
+        $allowAnswer = false;
+        if (Auth::user()->id != $question->user->id && count($answers) < 2){
+            $allowAnswer = true;
+        }
+
+        return view('question.view', compact('question', 'answers', 'allowAnswer'));
     }
 
     public function answer(Request $request, $id){
         $question = Question::find($id);
 
-        Answer::create([
+        $answer = Answer::create([
             'user_id' => Auth::user()->id,
             'question_id' => $id,
             'answer' => $request->answer,
             'points' => $question->points,
         ]);
+
+
 
         return redirect(route('question.view', ['id' => $id]))->with('success','Jawaban berhasil disimpan');
     }
