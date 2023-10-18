@@ -17,10 +17,10 @@ class QuestionController extends Controller
         $questions = new Question();
         
         if (@$request->search){
-            $question = $questions->where('question', 'like', '%'.$request->search.'%');
+            $questions = $questions->where('question', 'like', '%'.$request->search.'%');
         }
 
-        $question = $question->orderByDesc('created_at')->paginate(20);
+        $questions = $questions->orderByDesc('created_at')->paginate(20);
         return view('question.index', compact('questions'));
     }
 
@@ -54,8 +54,8 @@ class QuestionController extends Controller
     {
         $query = $search->input('search');
 
-        $question = DB::table('question')
-            ->where('questions', 'like', "%{$query}%") // Apply the LIKE condition
+        $question = DB::table('questions')
+            ->where('question', 'like', "%{$query}%") // Apply the LIKE condition
             ->first();
 
         return view('index', ['question' => $question]);
