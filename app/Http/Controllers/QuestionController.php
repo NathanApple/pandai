@@ -15,13 +15,16 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $questions = new Question();
-        
-        if (@$request->search){
-            $questions = $questions->where('question', 'like', '%'.$request->search.'%');
+
+        $search = @$request->search;
+
+        if (@$search){
+            $questions = $questions->where('question', 'like', '%'.$search.'%');
         }
 
         $questions = $questions->orderByDesc('created_at')->paginate(20);
-        return view('question.index', compact('questions'));
+
+        return view('question.index', compact('questions'))->with('search', $search);
     }
 
     public function store(Request $request)
