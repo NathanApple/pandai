@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PointProductController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,11 @@ Route::prefix('/question')->group(function(){
     Route::get('/view/{id}', [QuestionController::class,'view'])->name('question.view');
     Route::post('/view/{id}/answer', [QuestionController::class,'answer'])->name('question.view.answer');
     Route::post('/storeQuestion', [QuestionController::class,'store']);
+});
+
+Route::prefix('product')->group(function(){
+    Route::get('/', [PointProductController::class, 'index'])->name('product');
+    Route::post('/purchase', [PointProductController::class, 'purchase'])->name('product.purchase');
 });
 
 Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');

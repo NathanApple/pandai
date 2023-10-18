@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,14 @@ class QuestionController extends Controller
     {
         $question = new Question();
         $user = Auth::user();
+
+        if ($user->points <= 0) {
+            return redirect(route('question'))->with('error','Not Enough Points');
+        }
+
+        $user->points = $user->points - 1;
+        $user->update();
+
         $question->user_id =  $user->id;
         $question->question = $request->question;
         $question->refundPoints = 1;
@@ -51,17 +60,6 @@ class QuestionController extends Controller
         }
 
         return view('question.view', compact('question', 'answers', 'allowAnswer'));
-    }
-
-    public function search(Request $search)
-    {
-        $query = $search->input('search');
-
-        $question = DB::table('questions')
-            ->where('question', 'like', "%{$query}%") // Apply the LIKE condition
-            ->first();
-
-        return view('index', ['question' => $question]);
     }
 
     public function answer(Request $request, $id)

@@ -109,13 +109,17 @@
                                         <img class="h-8 w-8 rounded-full object-cover"
                                             src="{{ Auth::user()->profile_photo_url }}"
                                             alt="{{ Auth::user()->name }}" />
+
+                                        <p>
+                                            ({{Auth::user()->points}} token)
+                                        </p>
+
                                     </button>
                                 @else
                                     <span class="inline-flex rounded-md">
                                         <button type="button"
                                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                             {{ Auth::user()->name }}
-
                                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                 stroke="currentColor">
@@ -320,6 +324,7 @@
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                                 {{ __('Ajukan Pertanyaan') }}
                             </button>
+                            <p>You have {{Auth::user()->points}} token</p>
                         </div>
                     </div>
                 </form>
