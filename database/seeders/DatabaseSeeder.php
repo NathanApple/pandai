@@ -23,10 +23,16 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
+
+
         // Question::factory(3)
         //     ->create([
         //         'user_id' => 2
         //     ]);
-        
+
+        $this->call([
+            AdminSeeder::class,
+            PointProductSeeder::class,
+        ]);
     }
 }
