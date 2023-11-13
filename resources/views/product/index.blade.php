@@ -67,18 +67,26 @@
                         },
                         dataType: "json",
                         success: function (response) {
+                            let redirect_route = "{{route('product.process', ['orderid' => '::orderid::'])}}";
+                            redirect_route = redirect_route.replace('::orderid::', response['order_id']);
                             snap.pay(response['snap_token'], {
                               // Optional
                               onSuccess: function(result){
-                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                window.location.replace(redirect_route);
+                                /* You may add your own js here, this is just example */
+                                // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                               },
                               // Optional
                               onPending: function(result){
-                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                window.location.replace(redirect_route);
+                                /* You may add your own js here, this is just example */
+                                // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                               },
                               // Optional
                               onError: function(result){
-                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                window.location.replace(redirect_route);
+                                /* You may add your own js here, this is just example */
+                                // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                               }
                             });
                         }
