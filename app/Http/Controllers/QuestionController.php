@@ -18,7 +18,7 @@ class QuestionController extends Controller
         $questions = new Question();
 
         $search = @$request->search;
-
+        
         if (@$search){
             $questions = $questions->where('question', 'like', '%'.$search.'%');
         }

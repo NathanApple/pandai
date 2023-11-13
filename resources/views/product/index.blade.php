@@ -1,20 +1,38 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Pertanyaan') }}
-            </h2>
-            <button data-modal-target="defaultModal" data-modal-toggle="defaultModal"
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button">
-                {{ __('Ajukan Pertanyaan') }}
-            </button>
-        </div>
-    </x-slot>
 
-    <form action="{{ route('product.purchase') }}" method="POST">
+    {{-- <form action="{{ route('product.purchase') }}" method="POST"> --}}
+    <form action="" method="POST">
         @csrf
         <div class="pt-3">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="max-w rounded overflow-hidden shadow-sm p-3 grid grid-cols-3 gap-4">
+                        @foreach ($products as $product)
+                            <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{@$product->name}}</h5>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{@$product->description}}</p>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Rp {{@$product->price}}</p>
+                                <button
+                                    data-id="{{$product->id}}"
+                                    type="button"
+                                    class="pay-button inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Buy Now
+                                    <i class="material-icons pl-2 tiny">shopping_cart</i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="pay-button" type="button">Pay!</button>
+        <pre><div id="result-json">JSON result will appear here after payment:<br></div></pre> 
+    
+    <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
+
+
+        {{-- <div class="pt-3">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="max-w rounded overflow-hidden shadow-sm p-3">
@@ -34,10 +52,40 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </form>
 
-
-
+    <x-slot name="jsextra">
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.pay-button').click(function (){
+                    $.ajax({
+                        type: "get",
+                        url: "{{ route('product.get-snap-token') }}",
+                        data: {
+                            id: $(this).attr("data-id"),
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            snap.pay(response['snap_token'], {
+                              // Optional
+                              onSuccess: function(result){
+                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                              },
+                              // Optional
+                              onPending: function(result){
+                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                              },
+                              // Optional
+                              onError: function(result){
+                                /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                              }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    </x-slot>
 
 </x-app-layout>

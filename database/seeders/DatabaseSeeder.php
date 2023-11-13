@@ -15,15 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory(5)->create();
+        $users = User::factory(5)->create();
 
-        $user->each(function ($user) {
+        foreach ($users as $user) {
             $questions = Question::factory(3)->create([
                 'user_id' => $user->id
             ]);
-        });
-
-
+        }
 
         // Question::factory(3)
         //     ->create([
