@@ -25,6 +25,7 @@ Route::prefix('/question')->group(function(){
 
 Route::prefix('product')->group(function(){
     Route::get('/', [PointProductController::class, 'index'])->name('product');
+    Route::get('/history', [PointProductController::class, 'history'])->name('product.history');
     Route::post('/purchase', [PointProductController::class, 'purchase'])->name('product.purchase');
     Route::get('/status/{orderid}', [PointProductController::class, 'process'])->name('product.process');
 });

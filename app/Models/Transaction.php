@@ -14,4 +14,8 @@ class Transaction extends Model
     protected $fillable = [
         'user_id', 'product_point_id', 'quantity', 'total', 'payment_url', 'status'
     ];
+
+    public function pointProduct(){
+        return $this->belongsTo(PointProduct::class);
+    }
 }

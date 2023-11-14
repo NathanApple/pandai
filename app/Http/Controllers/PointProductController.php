@@ -85,18 +85,19 @@ class PointProductController extends Controller
                 'Transaction already finished! Status: '.$transaction->status);
         }
 
+        $status = null;
+
         try{
-            $status = \Midtrans\Transaction::status($orderid);
+            $status =  (object) \Midtrans\Transaction::status($orderid);
         } catch (Exception $e){
             return "Payment processing";
         }
 
-        $notif = new \Midtrans\Notification();
-        dd($status);
-        $transaction = $status->transaction_status;
+        // dd($status);
+        $transactionStatus = $status->transaction_status;
         $fraud = $status->fraud_status;
         $order_id = $status->order_id;
-        if ($transaction == 'capture') {
+        if ($transactionStatus == 'capture') {
             if ($fraud == 'challenge') {
                 // TODO Set payment status in merchant's database to 'challenge'
                 $transaction->update(['status' => 'challenge']);
@@ -106,7 +107,7 @@ class PointProductController extends Controller
                 $transaction->update(['status' => 'success']);
             }
         }
-        else if ($transaction == 'cancel') {
+        else if ($transactionStatus == 'cancel') {
             if ($fraud == 'challenge') {
                 // TODO Set payment status in merchant's database to 'failure'
                 $transaction->update(['status' => 'failure']);
@@ -116,21 +117,31 @@ class PointProductController extends Controller
                 $transaction->update(['status' => 'failure']);
             }
         }
-        else if ($transaction == 'deny') {
+        else if ($transactionStatus == 'deny') {
             // TODO Set payment status in merchant's database to 'failure'
             $transaction->update(['status' => 'failure']);
         }
-        else if ($transaction == 'pending') {
+        else if ($transactionStatus == 'pending') {
             $transaction->update(['status' => 'pending']);
         }
-        else if ($transaction == 'settlement') {
+        else if ($transactionStatus == 'settlement') {
             $transaction->update(['status' => 'settlement']);
         }
 
-        // if (){
+        $user = $transaction->user;
+        $user->points = $user->points - 1;
+        $user->update();
 
-        // }
+        return redirect(route('product'))->with('success','Point has been added to your account');
+    }
 
-        // return redirect(route('product'))->with('success','Point has been added to your account');
+    public function history(){
+        $user = Auth::user();
+
+        $transactions = Transaction::with('pointProduct')->where('user_id', $user->id)
+                            ->orderbyDesc('created_at')->get();
+
+                            dd($transactions);
+        return view('product.history', compact('transactions'));
     }
 }
