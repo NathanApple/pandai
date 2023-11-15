@@ -65,7 +65,7 @@ class PointProductController extends Controller
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY', '');
         \Midtrans\Config::$isProduction = false;
 
-        $transaction = Transaction::find($orderid);
+        $transaction = Transaction::with('user', 'pointProduct')->find($orderid);
 
         if (!$transaction){
             return redirect(route('product'))->with('error','Transaction not found!');
@@ -128,8 +128,10 @@ class PointProductController extends Controller
             $transaction->update(['status' => 'settlement']);
         }
 
+        // dd($transaction);
         $user = $transaction->user;
-        $user->points = $user->points - 1;
+        // dd($user);
+        $user->points = $user->points + $transaction->pointProduct->points;
         $user->update();
 
         return redirect(route('product'))->with('success','Point has been added to your account');
