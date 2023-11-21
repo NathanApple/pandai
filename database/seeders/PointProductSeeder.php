@@ -24,14 +24,14 @@ class PointProductSeeder extends Seeder
             ],
             [
                 'name' => '10 Points',
-                'points' => 5,
+                'points' => 10,
                 'price' => 8000,
                 'availability' => 1,
                 'description' => '20% cheaper'
             ],
             [
                 'name' => '20 Points',
-                'points' => 5,
+                'points' => 20,
                 'price' => 10000,
                 'availability' => 1,
                 'description' => '50% cheaper'

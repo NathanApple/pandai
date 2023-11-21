@@ -39,7 +39,7 @@
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-3 ">
-        <h1 class="text-3xl font-bold pl-3 font-serif ">Jawaban</h1>
+        <h1 class="text-3xl font-bold pl-3">Jawaban</h1>
     </div>
 
     @if (@$allowAnswer)
