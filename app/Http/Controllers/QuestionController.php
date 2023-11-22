@@ -18,7 +18,7 @@ class QuestionController extends Controller
         $questions = new Question();
 
         $search = @$request->search;
-        
+
         if (@$search){
             $questions = $questions->where('question', 'like', '%'.$search.'%');
         }
@@ -43,7 +43,7 @@ class QuestionController extends Controller
         $question->user_id =  $user->id;
         $question->question = $request->question;
         $question->refundPoints = 1;
-        $question->Points = 2;
+        $question->Points = 1;
         $question->save();
 
         return redirect(route('question.view', ['id' => $question->id]))->with('success','Pertanyaan berhasil disimpan');
@@ -55,7 +55,13 @@ class QuestionController extends Controller
         $answers = Answer::where('question_id', $id)->get();
 
         $allowAnswer = false;
-        if (Auth::user()->id != $question->user->id && count($answers) < 2){
+
+        $user = Auth::user();
+        $isUserAlreadyAnswered = Answer::where('question_id', $id)
+                                        ->where('user_id', $user->id)
+                                        ->count();
+
+        if ($user->id != $question->user->id && count($answers) < 2 && $isUserAlreadyAnswered == 0){
             $allowAnswer = true;
         }
 
@@ -72,6 +78,10 @@ class QuestionController extends Controller
             'answer' => $request->answer,
             'points' => $question->points,
         ]);
+
+        $user = Auth::user();
+        $user->points = $user->points + $question->points;
+        $user->update();
 
         return redirect(route('question.view', ['id' => $id]))->with('success','Jawaban berhasil disimpan');
     }

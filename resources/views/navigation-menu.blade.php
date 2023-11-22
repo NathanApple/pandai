@@ -6,9 +6,9 @@
                 <div class="flex">
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center">
-                        <a href="{{ route('question') }}">
+                        {{-- <a href="{{ route('question') }}">
                             <x-application-mark class="block h-9 w-auto" />
-                        </a>
+                        </a> --}}
                     </div>
 
                     <!-- Navigation Links -->

@@ -20,8 +20,11 @@
                     <div class="max-w rounded overflow-hidden shadow-sm">
                         <div class="px-6 pt-4 flex gap-2">
                             <div class="pr-3">
-                                <img src="https://media.istockphoto.com/id/1316134499/photo/a-concept-image-of-a-magnifying-glass-on-blue-background-with-a-word-example-zoom-inside-the.webp?b=1&s=170667a&w=0&k=20&c=e-i4hdu7dT3PIuf4xQMglnnORiwBAC_ZUgXw6aorB1M="
-                                    class="h-10 w-10 rounded-full flex items-center justify-center">
+                                <img class="h-10 w-10 rounded-full flex items-center justify-center object-cover"
+                                src="{{ @$question->user->profile_photo_url }}"
+                                alt="{{ @$question->user->name }}" />
+                                {{-- <img src="https://media.istockphoto.com/id/1316134499/photo/a-concept-image-of-a-magnifying-glass-on-blue-background-with-a-word-example-zoom-inside-the.webp?b=1&s=170667a&w=0&k=20&c=e-i4hdu7dT3PIuf4xQMglnnORiwBAC_ZUgXw6aorB1M="
+                                    class="nter"> --}}
                             </div>
                             <div class="mr-auto flex flex-col">
                                 <p class="my-auto text-base">
