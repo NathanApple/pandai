@@ -1,3 +1,6 @@
+<title>Pandai</title>
+<link rel="icon" href="{{url('/img/icon.png')}}">
+
 <div class="bg-gray-100 flex justify-center items-center h-screen">
     <div class="w-1/2 h-screen hidden lg:block">
         <img src="{{url('/img/banner.png')}}" alt="Placeholder Image" class="object-cover w-full h-full">
