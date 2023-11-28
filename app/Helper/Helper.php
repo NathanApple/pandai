@@ -1,43 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Helper;
 
-use App\Helper\Helper;
 use App\Models\Transaction;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TransactionController extends Controller
+class Helper
 {
-    //
-    public function index(){
-        Helper::refreshPayment();
-
-        $user = Auth::user();
-
-        $transactions = Transaction::with('pointProduct')->where('user_id', $user->id)
-                            ->orderbyDesc('created_at')->get();
-
-        return view('transaction.history', compact('transactions'));
-    }
-
-    public function refreshPayment($userId){
+    public static function refreshPayment(){
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY', '');
         \Midtrans\Config::$isProduction = false;
         $user = Auth::user();
 
         $transactions = Transaction::with('pointProduct')
-            ->where('user_id', $userId)
+            ->where('user_id', $user->id)
             ->where('status', 'pending')
-            ->orderbyDesc('created_at')->get();
+            ->get();
 
-        foreach ($transactions as $transaction) {
+        foreach ($transactions as $tr) {
             $status = null;
 
+            $transaction = Transaction::find($tr->id);
             try{
                 $status =  (object) \Midtrans\Transaction::status($transaction->id);
             } catch (Exception $e){
+                if ($e->getCode() == 404){
+                    $transaction->update(['status' => 'expire']);
+                }
                 // dd($e);
                 continue;
             }
@@ -74,14 +64,20 @@ class TransactionController extends Controller
                 $transaction->update(['status' => 'pending']);
             }
             else if ($transactionStatus == 'settlement') {
-                $transaction->update(['status' => 'settlement']);
+                $transaction->update(['status' => 'success']);
+            } else if ($transactionStatus == 'expire') {
+                $transaction->update(['status' => 'expire']);
             }
 
-            // dd($transaction);
-            $user = $transaction->user;
-            // dd($user);
-            $user->points = $user->points + $transaction->pointProduct->points;
-            $user->update();
+            if (in_array($transaction->status, ['settlement', 'success'])){
+                $user = $transaction->user;
+                // dd($user);
+                $user->points = $user->points + $transaction->pointProduct->points;
+                $user->update();
+            }
         }
+
+        return 1;
     }
+
 }

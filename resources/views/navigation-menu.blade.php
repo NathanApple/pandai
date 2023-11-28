@@ -153,7 +153,7 @@
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
-                                <x-dropdown-link href="{{ route('product.history') }}">
+                                <x-dropdown-link href="{{ route('transaction') }}">
                                     {{ __('Transaction History') }}
                                 </x-dropdown-link>
 
@@ -323,7 +323,7 @@
                 <!-- Modal header -->
                 <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        {{ __('Pertanyaan') }}
+                        {{ __('Question') }}
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -345,12 +345,12 @@
                             <label for="question" class="sr-only">{{ __('Pertanyaanmu') }}</label>
                             <textarea name="question" id="question" rows="10"
                                 class="w-full px-0 text-base text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                                placeholder="{{__('Tulis Pertanyaan Anda')}}" required></textarea>
+                                placeholder="{{__('Write your question here')}}" required></textarea>
                         </div>
                         <div class="flex items-center justify-between px-3 py-2 bg-gray-200">
                             <button type="submit" data-modal-hide="defaultModal"
                                 class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                                {{ __('Ajukan Pertanyaan') }}
+                                {{ __('Ask Your Question') }}
                             </button>
                             <p class="m-auto">You have {{Auth::user()->points}} token</p>
                         </div>

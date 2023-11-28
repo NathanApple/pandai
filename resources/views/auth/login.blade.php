@@ -2,7 +2,7 @@
     <div class="w-1/2 h-screen hidden lg:block">
         <img src="{{url('/img/banner.png')}}" alt="Placeholder Image" class="object-cover w-full h-full">
     </div>
-    <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+    <div class="w-full lg:w-1/2">
         <x-guest-layout>
             <x-authentication-card>
                 <x-slot name="logo">
@@ -48,11 +48,11 @@
                             </a>
                         @endif
 
-                        @if (Route::has('password.request'))
+                        {{-- @if (Route::has('password.request'))
                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                                 {{ __('Forgot your password?') }}
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
                 </form>
             </x-authentication-card>
