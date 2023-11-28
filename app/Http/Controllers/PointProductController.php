@@ -65,6 +65,7 @@ class PointProductController extends Controller
     }
 
     public function process(Request $request, $orderid){
+        $information = Helper::refreshPayment();
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY', '');
         \Midtrans\Config::$isProduction = false;
 
@@ -74,70 +75,17 @@ class PointProductController extends Controller
             return redirect(route('product'))->with('error','Transaction not found!');
         }
 
-        // switch ($transaction->status) {
-        //     case 'value':
-        //         # code...
-        //         break;
-            
-        //     default:
-        //         # code...
-        //         break;
-        // }
+        if ($transaction->status == 'success'){
+            return redirect(route('product'))->with('success','Point has been added to your account');
+        }
+
         if ($transaction->status != 'pending'){
             return redirect(route('product'))->with('info',
-                'Transaction already finished! Status: '.$transaction->status);
+                'Transaction finished! Status: '.$transaction->status);
         }
 
-        $status = null;
+        return redirect(route('transaction'))->with('info','Transaction is processing!');
 
-        try{
-            $status =  (object) \Midtrans\Transaction::status($orderid);
-        } catch (Exception $e){
-            return "Payment processing";
-        }
-
-        // dd($status);
-        $transactionStatus = $status->transaction_status;
-        $fraud = $status->fraud_status;
-        $order_id = $status->order_id;
-        if ($transactionStatus == 'capture') {
-            if ($fraud == 'challenge') {
-                // TODO Set payment status in merchant's database to 'challenge'
-                $transaction->update(['status' => 'challenge']);
-            }
-            else if ($fraud == 'accept') {
-                // TODO Set payment status in merchant's database to 'success'
-                $transaction->update(['status' => 'success']);
-            }
-        }
-        else if ($transactionStatus == 'cancel') {
-            if ($fraud == 'challenge') {
-                // TODO Set payment status in merchant's database to 'failure'
-                $transaction->update(['status' => 'failure']);
-            }
-            else if ($fraud == 'accept') {
-                // TODO Set payment status in merchant's database to 'failure'
-                $transaction->update(['status' => 'failure']);
-            }
-        }
-        else if ($transactionStatus == 'deny') {
-            // TODO Set payment status in merchant's database to 'failure'
-            $transaction->update(['status' => 'failure']);
-        }
-        else if ($transactionStatus == 'pending') {
-            $transaction->update(['status' => 'pending']);
-        }
-        else if ($transactionStatus == 'settlement') {
-            $transaction->update(['status' => 'settlement']);
-        }
-
-        // dd($transaction);
-        $user = $transaction->user;
-        // dd($user);
-        $user->points = $user->points + $transaction->pointProduct->points;
-        $user->update();
-
-        return redirect(route('product'))->with('success','Point has been added to your account');
     }
 
     public function history(){
