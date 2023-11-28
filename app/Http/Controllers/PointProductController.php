@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Models\PointProduct;
 use App\Models\Transaction;
 use App\Models\User;
@@ -14,6 +15,8 @@ class PointProductController extends Controller
 {
     //
     public function index(){
+        $information = Helper::refreshPayment();
+
         $products = PointProduct::where('availability', 1)->get();
 
         // dd(Uuid::generate());

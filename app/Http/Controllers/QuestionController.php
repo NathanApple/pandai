@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use Auth;
 
+use App\Helper\Helper;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
@@ -15,6 +16,8 @@ class QuestionController extends Controller
     //
     public function index(Request $request)
     {
+        $information = Helper::refreshPayment();
+
         $questions = new Question();
 
         $search = @$request->search;

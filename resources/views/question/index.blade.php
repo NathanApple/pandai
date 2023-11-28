@@ -2,12 +2,12 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Pertanyaan') }}
+                {{ __('Question') }}
             </h2>
             <button data-modal-target="defaultModal" data-modal-toggle="defaultModal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
-                {{ __('Ajukan Pertanyaan') }}
+                {{ __('Ask Question') }}
             </button>
         </div>
     </x-slot>
@@ -41,7 +41,7 @@
                         <div class="px-6 pb-5">
                             <a href="{{ route("question.view", ['id' => $question->id ]) }}"
                                 class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                Jawab
+                                Answer
                             </a>
                         </div>
                     </div>
