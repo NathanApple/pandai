@@ -16,24 +16,32 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::prefix('/question')->group(function(){
-    Route::get('/', [QuestionController::class,'index'])->name('question');
-    Route::get('/view/{id}', [QuestionController::class,'view'])->name('question.view');
-    Route::post('/view/{id}/answer', [QuestionController::class,'answer'])->name('question.view.answer');
-    Route::post('/storeQuestion', [QuestionController::class,'store']);
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::prefix('/question')->group(function(){
+        Route::get('/', [QuestionController::class,'index'])->name('question');
+        Route::get('/view/{id}', [QuestionController::class,'view'])->name('question.view');
+        Route::post('/view/{id}/answer', [QuestionController::class,'answer'])->name('question.view.answer');
+        Route::post('/storeQuestion', [QuestionController::class,'store']);
+    });
+    
+    Route::prefix('product')->group(function(){
+        Route::get('/', [PointProductController::class, 'index'])->name('product');
+        Route::post('/purchase', [PointProductController::class, 'purchase'])->name('product.purchase');
+        Route::get('/status/{orderid}', [PointProductController::class, 'process'])->name('product.process');
+    });
+    
+    Route::prefix('transaction')->group(function(){
+        Route::get('/', [TransactionController::class, 'index'])->name('transaction');
+    });
+    
+    Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
 });
 
-Route::prefix('product')->group(function(){
-    Route::get('/', [PointProductController::class, 'index'])->name('product');
-    Route::post('/purchase', [PointProductController::class, 'purchase'])->name('product.purchase');
-    Route::get('/status/{orderid}', [PointProductController::class, 'process'])->name('product.process');
-});
 
-Route::prefix('transaction')->group(function(){
-    Route::get('/', [TransactionController::class, 'index'])->name('transaction');
-});
-
-Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
 
 Route::get('/', [IndexController::class,'index'])->name('index');
 
