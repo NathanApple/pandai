@@ -20,7 +20,7 @@ class PointProductSeeder extends Seeder
                 'points' => 5,
                 'price' => 5000,
                 'availability' => 1,
-                'description' => 'Au ah ini description buat apa coba'
+                'description' => 'Basic point'
             ],
             [
                 'name' => '10 Points',
