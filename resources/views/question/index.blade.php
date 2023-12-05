@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="px-6 pt-1 pb-4">
-                            <div class="font-bold text-xl">{{ @$question->question }}</div>
+                            <div class="font-bold text-xl">{{ \Illuminate\Support\Str::limit(@$question->question, 150, $end='...') }}</div>
                         </div>
                         <div class="px-6 pb-5">
                             <a href="{{ route("question.view", ['id' => $question->id ]) }}"

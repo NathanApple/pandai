@@ -342,7 +342,7 @@
                     <div
                         class="text-lg w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                         <div class="px-4 py-2 bg-white border-none dark:bg-gray-800">
-                            <label for="question" class="sr-only">{{ __('Pertanyaanmu') }}</label>
+                            <label for="question" class="sr-only">{{ __('My Question') }}</label>
                             <textarea name="question" id="question" rows="10"
                                 class="w-full px-0 text-base text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                                 placeholder="{{__('Write your question here')}}" required></textarea>

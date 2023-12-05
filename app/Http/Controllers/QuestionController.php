@@ -49,7 +49,7 @@ class QuestionController extends Controller
         $question->Points = 1;
         $question->save();
 
-        return redirect(route('question.view', ['id' => $question->id]))->with('success','Pertanyaan berhasil disimpan');
+        return redirect(route('question.view', ['id' => $question->id]))->with('success','Question is saved');
     }
 
     public function view(Request $request, $id)
@@ -86,6 +86,6 @@ class QuestionController extends Controller
         $user->points = $user->points + $question->points;
         $user->update();
 
-        return redirect(route('question.view', ['id' => $id]))->with('success','Jawaban berhasil disimpan');
+        return redirect(route('question.view', ['id' => $id]))->with('success','Answer is saved');
     }
 }

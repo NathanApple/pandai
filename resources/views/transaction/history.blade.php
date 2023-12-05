@@ -26,6 +26,9 @@
                         {{ $transaction->pointProduct->name }}
                     </div>
                     <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">Price: Rp {{@$transaction->total}}</p>
+                    <p class="my-auto text-xs">
+                        {{ @date_format(date_create(@$transaction->created_at), 'H:i, j M Y') }}
+                    </p>
                 </div>
 
                 {{-- <a vclass="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2">
